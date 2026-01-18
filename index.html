@@ -27,6 +27,7 @@
             color: var(--text-main);
             margin: 0;
             line-height: 1.5;
+            overflow-x: hidden; /* Gövdede yatay kaymayı engelle */
         }
 
         nav {
@@ -34,7 +35,7 @@
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            padding: 0 24px;
+            padding: 0 16px; /* Mobil uyum için azaltıldı */
             position: sticky;
             top: 0;
             background: var(--bg-dark);
@@ -42,153 +43,108 @@
         }
 
         .logo {
-            font-size: 22px;
+            font-size: 18px; /* Mobilde biraz küçültüldü */
             color: var(--text-dim);
             display: flex;
-            align-items: center;
-            gap: 8px;
+            align-items: center; gap: 8px;
         }
 
         .logo b { color: var(--text-main); font-weight: 500; }
 
         .search-section {
-            padding: 48px 24px;
+            padding: 32px 16px;
             max-width: 720px;
             margin: 0 auto;
             text-align: center;
         }
 
-        .search-wrapper {
-            position: relative;
-            margin-top: 24px;
-        }
+        .search-wrapper { position: relative; margin-top: 24px; }
 
         input {
-            width: 100%;
-            height: 48px;
-            padding: 0 50px;
-            border-radius: 24px;
+            width: 100%; height: 48px; padding: 0 24px; border-radius: 24px;
             border: 1px solid var(--border-color);
             background-color: var(--input-bg);
-            color: white;
-            font-size: 16px;
-            transition: box-shadow 0.2s;
-            outline: none;
+            color: white; font-size: 16px; transition: box-shadow 0.2s; outline: none;
         }
 
-        input:focus {
-            box-shadow: 0 1px 6px rgba(0,0,0,.4);
-            border-color: var(--google-blue);
-        }
+        input:focus { box-shadow: 0 1px 6px rgba(0,0,0,.4); border-color: var(--google-blue); }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px 48px;
+        .container { 
+            width: 100%;
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 16px 48px; 
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
+            /* Mobilde kutuyu küçültmek için minmax değeri düşürüldü */
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+            gap: 16px;
         }
 
         .card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
+            border-radius: 12px; padding: 20px;
+            display: flex; flex-direction: column; 
+            min-width: 0; /* İçerik taşmasını önlemek için kritik */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
-        .tag-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
+        .tag-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px; }
 
         .tag-name {
             font-family: 'Roboto Mono', monospace;
-            color: var(--google-blue);
-            font-size: 16px;
-            font-weight: 600;
-            word-break: break-all;
+            color: var(--google-blue); font-size: 15px; font-weight: 600; 
+            word-break: break-all; /* Uzun fonksiyon isimlerini kır */
         }
 
-        .description {
-            font-size: 14px;
-            color: var(--text-main);
-            margin-bottom: 16px;
-        }
+        .description { font-size: 14px; color: var(--text-main); margin-bottom: 16px; }
 
-        .args-container {
-            margin-top: 16px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 16px;
-        }
+        .args-container { margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px; }
 
         .arg-item {
-            font-size: 13px;
-            margin-bottom: 8px;
-            padding: 6px 10px;
-            background: var(--arg-bg);
-            border-radius: 6px;
-            color: var(--text-dim);
+            font-size: 13px; margin-bottom: 8px; padding: 8px 10px;
+            background: var(--arg-bg); border-radius: 6px; color: var(--text-dim);
+            min-width: 0;
         }
 
-        .arg-name {
-            color: var(--google-blue);
-            font-weight: 500;
-        }
+        .arg-name { color: var(--google-blue); font-weight: 500; word-break: break-all; }
 
         .arg-type {
-            font-size: 11px;
-            background: #1a73e8;
-            color: white;
-            padding: 1px 4px;
-            border-radius: 3px;
-            margin-left: 5px;
+            font-size: 10px; background: #1a73e8; color: white;
+            padding: 1px 4px; border-radius: 3px; margin-left: 5px;
+            vertical-align: middle;
         }
 
-        /* Example Styling */
         .example-container {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px dashed var(--border-color);
+            margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border-color);
+            display: none;
+            max-width: 100%;
         }
 
         .example-code {
-            background: var(--example-bg);
-            padding: 12px;
-            border-radius: 8px;
-            font-family: 'Roboto Mono', monospace;
-            font-size: 13px;
-            color: #d1d1d1;
-            white-space: pre-wrap;
-            overflow-x: auto;
+            background: var(--example-bg); padding: 12px; border-radius: 8px;
+            font-family: 'Roboto Mono', monospace; font-size: 12px; color: #d1d1d1;
+            white-space: pre-wrap; /* Satırları sığmazsa aşağı kaydır */
+            word-break: break-word;
+            overflow-x: auto; /* Yine de çok uzunsa kaydırılabilir kalsın */
             border: 1px solid #121212;
+            max-width: 100%;
         }
-
-        .loading-text { font-size: 12px; color: var(--text-dim); font-style: italic; }
 
         .premium-label {
-            font-size: 10px;
-            background: #443700;
-            color: #fdd663;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            flex-shrink: 0;
-            margin-left: 10px;
+            font-size: 9px; background: #443700; color: #fdd663;
+            padding: 2px 6px; border-radius: 4px; font-weight: 600;
+            text-transform: uppercase; flex-shrink: 0;
         }
 
-        @media (max-width: 600px) {
-            .search-section { padding: 24px 16px; }
-            .grid { grid-template-columns: 1fr; }
+        @media (max-width: 480px) {
+            .search-section h1 { font-size: 22px; }
+            .card { padding: 16px; }
+            .tag-name { font-size: 14px; }
         }
     </style>
 </head>
@@ -196,16 +152,16 @@
 
 <nav>
     <div class="logo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color:#8ab4f8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color:#8ab4f8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
         <span>BDFD <b>Developer</b></span>
     </div>
 </nav>
 
 <div class="search-section">
     <h1 style="font-weight: 400; font-size: 28px; margin-bottom: 8px;">Documentation</h1>
-    <p style="color: var(--text-dim); margin: 0;">Find functions and code snippets for your bot.</p>
+    <p style="color: var(--text-dim); margin: 0; font-size: 14px;">Find functions and code snippets.</p>
     <div class="search-wrapper">
-        <input type="text" id="searchInput" placeholder="Search functions (e.g. $message)">
+        <input type="text" id="searchInput" placeholder="Search functions...">
     </div>
 </div>
 
@@ -216,17 +172,23 @@
 <script>
     const grid = document.getElementById('functionGrid');
     const searchInput = document.getElementById('searchInput');
+    const PROXY_URL = 'https://naopii.vercel.app/api/v1/postman';
     let allFunctions = [];
 
-    const API = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://botdesignerdiscord.com/public/api/function_list');
+    async function proxyGet(targetUrl) {
+        return axios.post(PROXY_URL, {
+            api: targetUrl,
+            method: "GET"
+        });
+    }
 
     async function fetchData() {
         try {
-            const res = await axios.get(API);
-            allFunctions = res.data;
+            const res = await proxyGet('https://botdesignerdiscord.com/public/api/function_list');
+            allFunctions = Array.isArray(res.data) ? res.data : [];
             renderCards(allFunctions);
         } catch (err) {
-            grid.innerHTML = '<p>Error loading data. Please check your connection.</p>';
+            grid.innerHTML = '<p style="text-align:center; color:var(--text-dim);">Error loading data.</p>';
         }
     }
 
@@ -234,24 +196,24 @@
         return tag.split('[')[0].trim();
     }
 
-    // GitHub'dan example çeken yardımcı fonksiyon
     async function loadExample(funcName, elementId) {
         const cleanName = funcName.replace('$', '');
         const target = document.getElementById(elementId);
         
         try {
             const url = `https://raw.githubusercontent.com/NilPointer-Software/bdfd-wiki/refs/heads/dev/src/bdscript/${cleanName}.md`;
-            const res = await axios.get(url);
+            const res = await proxyGet(url);
             const markdown = res.data;
 
-            // ## Example altındaki ilk kod bloğunu yakala
             const regex = /## Example\s+```(?:\w+)?\s+([\s\S]*?)\s+```/;
             const match = markdown.match(regex);
 
             if (match && match[1]) {
-                target.innerHTML = `<div class="example-code">${match[1].trim()}</div>`;
-            } else {
-                target.style.display = 'none';
+                target.style.display = 'block';
+                target.innerHTML = `
+                    <div style="font-size: 11px; font-weight: 600; margin-bottom: 8px; color: #81c995;">EXAMPLE</div>
+                    <div class="example-code">${match[1].trim()}</div>
+                `;
             }
         } catch (e) {
             target.style.display = 'none';
@@ -259,18 +221,19 @@
     }
 
     function renderCards(data) {
+        if (!data.length) return;
+        
         grid.innerHTML = data.map((item, index) => {
             const displayTag = cleanTagName(item.tag);
             const exampleId = `example-${index}`;
             
-            // Asenkron olarak example yükle (debounce gibi sırayla yüklenmesi için setTimeout)
-            setTimeout(() => loadExample(displayTag, exampleId), 50 * (index % 20));
+            setTimeout(() => loadExample(displayTag, exampleId), 150 + (index * 5));
 
             let argsHtml = '';
             if (item.arguments && item.arguments.length > 0) {
                 argsHtml = `
                     <div class="args-container">
-                        <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim);">ARGUMENTS</div>
+                        <div style="font-size: 11px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim);">ARGUMENTS</div>
                         ${item.arguments.map(arg => `
                             <div class="arg-item">
                                 <span class="arg-name">${arg.name}</span>
@@ -288,14 +251,9 @@
                     <span class="tag-name">${displayTag}</span>
                     ${item.premium ? '<span class="premium-label">Premium</span>' : ''}
                 </div>
-                <div class="description">
-                    ${item.shortDescription || 'No description available for this function.'}
-                </div>
+                <div class="description">${item.shortDescription || 'No description available.'}</div>
                 ${argsHtml}
-                <div id="${exampleId}" class="example-container">
-                    <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #81c995;">EXAMPLE</div>
-                    <div class="loading-text">Fetching example...</div>
-                </div>
+                <div id="${exampleId}" class="example-container"></div>
             </div>
         `}).join('');
     }
