@@ -3,156 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDFD Docs | Function Explorer</title>
+    <title>BDFD Documentation</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #05070a;
-            --card-bg: #11141d;
-            --accent: #00d2ff;
-            --premium: #ffd700;
-            --text: #e2e8f0;
-            --dim: #94a3b8;
-            --border: #1e293b;
+            --google-gray: #f8f9fa;
+            --google-blue: #1a73e8;
+            --text-dark: #202124;
+            --text-light: #5f6368;
+            --border-color: #dadce0;
+            --shadow: 0 1px 2px 0 rgba(60,64,67,.30), 0 1px 3px 1px rgba(60,64,67,.15);
         }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            color: var(--text-dark);
             margin: 0;
-            padding: 0;
+            line-height: 1.5;
         }
 
-        .container { max-width: 1300px; margin: 0 auto; padding: 40px 20px; }
-
-        header { text-align: center; margin-bottom: 60px; }
-        h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(to right, #00d2ff, #3a7bd5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .search-box {
-            width: 100%; max-width: 600px; padding: 18px 25px; border-radius: 15px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            color: white; font-size: 1.1rem; outline: none; transition: 0.3s;
-            margin-bottom: 40px;
+        /* Navbar */
+        nav {
+            height: 64px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
         }
-        .search-box:focus { border-color: var(--accent); box-shadow: 0 0 20px rgba(0, 210, 255, 0.1); }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .logo {
+            font-size: 22px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo b { color: var(--text-dark); font-weight: 500; }
+
+        /* Search Header */
+        .search-section {
+            padding: 48px 24px;
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-top: 24px;
+        }
+
+        input {
+            width: 100%;
+            height: 48px;
+            padding: 0 50px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            font-size: 16px;
+            transition: box-shadow 0.2s;
+            outline: none;
+        }
+
+        input:focus {
+            box-shadow: 0 1px 6px rgba(32,33,36,.28);
+            border-color: transparent;
+        }
+
+        /* Main Grid */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 48px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
 
         .card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 20px; padding: 25px; transition: 0.3s;
-            position: relative; display: flex; flex-direction: column;
-        }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
-
-        .tag { font-family: 'Fira Code', monospace; color: var(--accent); font-size: 1.25rem; font-weight: 600; }
-        .desc { color: var(--dim); margin: 15px 0; font-size: 0.95rem; line-height: 1.6; }
-        
-        .args-box {
-            background: #000; padding: 10px; border-radius: 8px; font-size: 0.8rem;
-            color: #10b981; font-family: 'Fira Code', monospace; margin-bottom: 15px;
-            border: 1px solid #10b98133;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.2s;
         }
 
-        .prem-label {
-            position: absolute; top: 15px; right: 15px;
-            background: rgba(255, 215, 0, 0.1); color: var(--premium);
-            padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 800;
+        .card:hover {
+            box-shadow: 0 4px 6px rgba(32,33,36,0.1);
         }
 
-        .copy-btn {
-            background: var(--accent); color: #000; border: none;
-            padding: 10px 20px; border-radius: 10px; font-weight: 700;
-            cursor: pointer; transition: 0.2s; align-self: flex-start;
+        .tag-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
-        .copy-btn:hover { opacity: 0.8; transform: scale(0.98); }
 
-        #loading { font-size: 1.5rem; text-align: center; color: var(--accent); margin-top: 100px; }
+        .tag-name {
+            font-family: 'Roboto Mono', monospace;
+            color: var(--google-blue);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .description {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        /* Buttons */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-copy {
+            background-color: transparent;
+            color: var(--google-blue);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-copy:hover {
+            background-color: rgba(26,115,232,0.04);
+            border-color: var(--google-blue);
+        }
+
+        .premium-label {
+            font-size: 11px;
+            background: #feefc3;
+            color: #af5c00;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .search-section { padding: 24px 16px; }
+            .grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>BDFD Docs</h1>
-        <p style="color: var(--dim)">The Ultimate Function Reference</p>
-        <input type="text" id="search" class="search-box" placeholder="Search for functions, keywords, or intents...">
-    </header>
+<nav>
+    <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color:#4285f4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <span>BDFD <b>Developer</b></span>
+    </div>
+</nav>
 
-    <div id="loading">Establishing secure connection to API...</div>
-    <div class="grid" id="grid"></div>
+<div class="search-section">
+    <h1 style="font-weight: 400; font-size: 28px; margin-bottom: 8px;">Documentation</h1>
+    <p style="color: var(--text-light); margin: 0;">Find functions and code snippets for your bot.</p>
+    <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="Search functions (e.g. $message)">
+    </div>
+</div>
+
+<div class="container">
+    <div class="grid" id="functionGrid"></div>
 </div>
 
 <script>
-    const grid = document.getElementById('grid');
-    const search = document.getElementById('search');
-    const loading = document.getElementById('loading');
-    let functions = [];
+    const grid = document.getElementById('functionGrid');
+    const searchInput = document.getElementById('searchInput');
+    let allFunctions = [];
 
-    // Using a CORS Proxy to bypass the ERR_NETWORK / CORS issue
-    const PROXY = 'https://api.allorigins.win/raw?url=';
-    const API_URL = 'https://botdesignerdiscord.com/public/api/function_list';
+    const API = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://botdesignerdiscord.com/public/api/function_list');
 
-    async function init() {
+    async function fetchData() {
         try {
-            const res = await axios.get(PROXY + encodeURIComponent(API_URL));
-            functions = res.data;
-            loading.style.display = 'none';
-            render(functions);
+            const res = await axios.get(API);
+            allFunctions = res.data;
+            renderCards(allFunctions);
         } catch (err) {
-            loading.innerHTML = `<span style="color:#ff4d4d">CORS Error: Please try using a local server or a different browser.</span>`;
-            console.error(err);
+            grid.innerHTML = '<p>Error loading data. Please check your connection.</p>';
         }
     }
 
-    function render(data) {
-        grid.innerHTML = '';
-        data.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            
-            // Format arguments if they exist
-            const argsDisp = item.arguments 
-                ? `<div class="args-box">Args: ${item.arguments.join(', ')}</div>` 
-                : `<div class="args-box" style="color: #64748b">No arguments required</div>`;
-
-            card.innerHTML = `
-                ${item.premium ? '<div class="prem-label">PREMIUM</div>' : ''}
-                <div class="tag">${item.tag}</div>
-                <div class="desc">${item.shortDescription || 'Information for this function is being updated.'}</div>
-                ${argsDisp}
-                <div style="display:flex; justify-content: space-between; align-items: center; margin-top: auto;">
-                    <span style="font-size: 0.8rem; color: var(--dim)">Intent: ${item.intents}</span>
-                    <button class="copy-btn" onclick="copy('${item.tag}')">Copy Tag</button>
+    function renderCards(data) {
+        grid.innerHTML = data.map(item => `
+            <div class="card">
+                <div class="tag-header">
+                    <span class="tag-name">${item.tag}</span>
+                    ${item.premium ? '<span class="premium-label">Premium</span>' : ''}
                 </div>
-            `;
-            grid.appendChild(card);
-        });
+                <div class="description">
+                    ${item.shortDescription || 'No description available for this function.'}
+                </div>
+                <div class="card-footer">
+                    <span style="font-size: 12px; color: var(--text-light)">Intents: ${item.intents}</span>
+                    <button class="btn-copy" onclick="copyTag('${item.tag}')">Copy</button>
+                </div>
+            </div>
+        `).join('');
     }
 
-    search.addEventListener('input', (e) => {
+    function copyTag(tag) {
+        const cleanTag = tag.split('[')[0];
+        navigator.clipboard.writeText(cleanTag);
+        
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "Copied";
+        btn.style.color = "#188038";
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.color = "var(--google-blue)";
+        }, 1000);
+    }
+
+    searchInput.addEventListener('input', e => {
         const val = e.target.value.toLowerCase();
-        const filtered = functions.filter(f => 
+        const filtered = allFunctions.filter(f => 
             f.tag.toLowerCase().includes(val) || 
             f.shortDescription.toLowerCase().includes(val)
         );
-        render(filtered);
+        renderCards(filtered);
     });
 
-    function copy(text) {
-        navigator.clipboard.writeText(text);
-        const btn = event.target;
-        btn.innerText = 'Copied!';
-        btn.style.background = '#10b981';
-        setTimeout(() => {
-            btn.innerText = 'Copy Tag';
-            btn.style.background = 'var(--accent)';
-        }, 1500);
-    }
-
-    init();
+    fetchData();
 </script>
 
 </body>
