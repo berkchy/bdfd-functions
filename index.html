@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDFD Documentation</title>
+    <title>BDFD Documentation - Dark Mode</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
-            --google-gray: #f8f9fa;
-            --google-blue: #1a73e8;
-            --text-dark: #202124;
-            --text-light: #5f6368;
-            --border-color: #dadce0;
-            --shadow: 0 1px 2px 0 rgba(60,64,67,.30), 0 1px 3px 1px rgba(60,64,67,.15);
+            --bg-dark: #202124;
+            --bg-card: #292a2d;
+            --google-blue: #8ab4f8;
+            --text-main: #e8eaed;
+            --text-dim: #9aa0a6;
+            --border-color: #3c4043;
+            --input-bg: #303134;
+            --arg-bg: #3c4043;
+            --example-bg: #1e1f21;
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: white;
-            color: var(--text-dark);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             margin: 0;
             line-height: 1.5;
         }
 
-        /* Navbar */
         nav {
             height: 64px;
             border-bottom: 1px solid var(--border-color);
@@ -35,21 +37,20 @@
             padding: 0 24px;
             position: sticky;
             top: 0;
-            background: white;
+            background: var(--bg-dark);
             z-index: 100;
         }
 
         .logo {
             font-size: 22px;
-            color: var(--text-light);
+            color: var(--text-dim);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .logo b { color: var(--text-dark); font-weight: 500; }
+        .logo b { color: var(--text-main); font-weight: 500; }
 
-        /* Search Header */
         .search-section {
             padding: 48px 24px;
             max-width: 720px;
@@ -68,17 +69,18 @@
             padding: 0 50px;
             border-radius: 24px;
             border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: white;
             font-size: 16px;
             transition: box-shadow 0.2s;
             outline: none;
         }
 
         input:focus {
-            box-shadow: 0 1px 6px rgba(32,33,36,.28);
-            border-color: transparent;
+            box-shadow: 0 1px 6px rgba(0,0,0,.4);
+            border-color: var(--google-blue);
         }
 
-        /* Main Grid */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -87,79 +89,103 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
         }
 
         .card {
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            transition: box-shadow 0.2s;
-        }
-
-        .card:hover {
-            box-shadow: 0 4px 6px rgba(32,33,36,0.1);
+            transition: transform 0.2s;
         }
 
         .tag-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
+            align-items: flex-start;
+            margin-bottom: 12px;
         }
 
         .tag-name {
             font-family: 'Roboto Mono', monospace;
             color: var(--google-blue);
-            font-size: 15px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 600;
+            word-break: break-all;
         }
 
         .description {
             font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 20px;
-            flex-grow: 1;
+            color: var(--text-main);
+            margin-bottom: 16px;
         }
 
-        /* Buttons */
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .args-container {
+            margin-top: 16px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
         }
 
-        .btn-copy {
-            background-color: transparent;
+        .arg-item {
+            font-size: 13px;
+            margin-bottom: 8px;
+            padding: 6px 10px;
+            background: var(--arg-bg);
+            border-radius: 6px;
+            color: var(--text-dim);
+        }
+
+        .arg-name {
             color: var(--google-blue);
-            border: 1px solid var(--border-color);
-            padding: 6px 16px;
-            border-radius: 4px;
             font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s;
         }
 
-        .btn-copy:hover {
-            background-color: rgba(26,115,232,0.04);
-            border-color: var(--google-blue);
+        .arg-type {
+            font-size: 11px;
+            background: #1a73e8;
+            color: white;
+            padding: 1px 4px;
+            border-radius: 3px;
+            margin-left: 5px;
         }
+
+        /* Example Styling */
+        .example-container {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .example-code {
+            background: var(--example-bg);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
+            color: #d1d1d1;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            border: 1px solid #121212;
+        }
+
+        .loading-text { font-size: 12px; color: var(--text-dim); font-style: italic; }
 
         .premium-label {
-            font-size: 11px;
-            background: #feefc3;
-            color: #af5c00;
+            font-size: 10px;
+            background: #443700;
+            color: #fdd663;
             padding: 2px 8px;
             border-radius: 4px;
             font-weight: 600;
             text-transform: uppercase;
+            flex-shrink: 0;
+            margin-left: 10px;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
             .search-section { padding: 24px 16px; }
             .grid { grid-template-columns: 1fr; }
@@ -170,14 +196,14 @@
 
 <nav>
     <div class="logo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color:#4285f4"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color:#8ab4f8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
         <span>BDFD <b>Developer</b></span>
     </div>
 </nav>
 
 <div class="search-section">
     <h1 style="font-weight: 400; font-size: 28px; margin-bottom: 8px;">Documentation</h1>
-    <p style="color: var(--text-light); margin: 0;">Find functions and code snippets for your bot.</p>
+    <p style="color: var(--text-dim); margin: 0;">Find functions and code snippets for your bot.</p>
     <div class="search-wrapper">
         <input type="text" id="searchInput" placeholder="Search functions (e.g. $message)">
     </div>
@@ -204,43 +230,81 @@
         }
     }
 
+    function cleanTagName(tag) {
+        return tag.split('[')[0].trim();
+    }
+
+    // GitHub'dan example çeken yardımcı fonksiyon
+    async function loadExample(funcName, elementId) {
+        const cleanName = funcName.replace('$', '');
+        const target = document.getElementById(elementId);
+        
+        try {
+            const url = `https://raw.githubusercontent.com/NilPointer-Software/bdfd-wiki/refs/heads/dev/src/bdscript/${cleanName}.md`;
+            const res = await axios.get(url);
+            const markdown = res.data;
+
+            // ## Example altındaki ilk kod bloğunu yakala
+            const regex = /## Example\s+```(?:\w+)?\s+([\s\S]*?)\s+```/;
+            const match = markdown.match(regex);
+
+            if (match && match[1]) {
+                target.innerHTML = `<div class="example-code">${match[1].trim()}</div>`;
+            } else {
+                target.style.display = 'none';
+            }
+        } catch (e) {
+            target.style.display = 'none';
+        }
+    }
+
     function renderCards(data) {
-        grid.innerHTML = data.map(item => `
+        grid.innerHTML = data.map((item, index) => {
+            const displayTag = cleanTagName(item.tag);
+            const exampleId = `example-${index}`;
+            
+            // Asenkron olarak example yükle (debounce gibi sırayla yüklenmesi için setTimeout)
+            setTimeout(() => loadExample(displayTag, exampleId), 50 * (index % 20));
+
+            let argsHtml = '';
+            if (item.arguments && item.arguments.length > 0) {
+                argsHtml = `
+                    <div class="args-container">
+                        <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim);">ARGUMENTS</div>
+                        ${item.arguments.map(arg => `
+                            <div class="arg-item">
+                                <span class="arg-name">${arg.name}</span>
+                                <span class="arg-type">${arg.type}</span>
+                                <div style="margin-top: 4px; font-size: 12px; color: #bdc1c6;">${arg.description || ''}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            return `
             <div class="card">
                 <div class="tag-header">
-                    <span class="tag-name">${item.tag}</span>
+                    <span class="tag-name">${displayTag}</span>
                     ${item.premium ? '<span class="premium-label">Premium</span>' : ''}
                 </div>
                 <div class="description">
                     ${item.shortDescription || 'No description available for this function.'}
                 </div>
-                <div class="card-footer">
-                    <span style="font-size: 12px; color: var(--text-light)">Intents: ${item.intents}</span>
-                    <button class="btn-copy" onclick="copyTag('${item.tag}')">Copy</button>
+                ${argsHtml}
+                <div id="${exampleId}" class="example-container">
+                    <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #81c995;">EXAMPLE</div>
+                    <div class="loading-text">Fetching example...</div>
                 </div>
             </div>
-        `).join('');
-    }
-
-    function copyTag(tag) {
-        const cleanTag = tag.split('[')[0];
-        navigator.clipboard.writeText(cleanTag);
-        
-        const btn = event.target;
-        const originalText = btn.innerText;
-        btn.innerText = "Copied";
-        btn.style.color = "#188038";
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.color = "var(--google-blue)";
-        }, 1000);
+        `}).join('');
     }
 
     searchInput.addEventListener('input', e => {
         const val = e.target.value.toLowerCase();
         const filtered = allFunctions.filter(f => 
             f.tag.toLowerCase().includes(val) || 
-            f.shortDescription.toLowerCase().includes(val)
+            (f.shortDescription && f.shortDescription.toLowerCase().includes(val))
         );
         renderCards(filtered);
     });
